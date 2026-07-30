@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santosh's Portfolio</title>
+<meta name="description" content="Santosh's Portfolio">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --bg-panel: #10151c;
+    --bg-panel-alt: #141a22;
+    --border: #212a34;
+    --border-soft: #1a222b;
+    --text: #e7edf3;
+    --text-dim: #8b98a5;
+    --text-faint: #566270;
+    --amber: #ffb454;
+    --teal: #5fd9c5;
+    --red: #ff6b6b;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --maxw: 1040px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(95,217,197,0.06), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(255,180,84,0.05), transparent 60%);
+  }
+  ::selection{ background:var(--teal); color:#04110d; }
+  a{ color:inherit; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  /* faint circuit-grid background */
+  .grid-bg{
+    position:fixed; inset:0; z-index:-1; opacity:0.35;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 900px 700px at 50% 0%, black, transparent 75%);
+  }
+
+  /* nav */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,18,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .brand{ font-family:var(--mono); font-weight:700; font-size:14px; letter-spacing:0.02em; }
+  .brand .dot{ color:var(--teal); }
+  .navlinks{ display:flex; gap:26px; list-style:none; font-family:var(--mono); font-size:12px; letter-spacing:0.04em; }
+  .navlinks a{ text-decoration:none; color:var(--text-dim); transition:color .15s; }
+  .navlinks a:hover{ color:var(--teal); }
+  .navlinks a::before{ content:"// "; color:var(--text-faint); }
+  @media (max-width:720px){ .navlinks{ display:none; } }
+
+  /* hero */
+  .hero{ padding:90px 0 60px; position:relative; }
+  .hero-console{
+    position:relative;
+    border:1px solid var(--border);
+    background:var(--bg-panel);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .console-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 18px; border-bottom:1px solid var(--border-soft);
+    font-family:var(--mono); font-size:11px; color:var(--text-faint); letter-spacing:0.05em;
+  }
+  .console-topbar .dots{ display:flex; gap:6px; }
+  .console-topbar .dots span{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .dots span:nth-child(1){ background:#ff6b6b55; border:1px solid #ff6b6b; }
+  .dots span:nth-child(2){ background:#ffb45455; border:1px solid var(--amber); }
+  .dots span:nth-child(3){ background:#5fd9c555; border:1px solid var(--teal); }
+  .console-body{ padding:38px 30px 30px; position:relative; }
+  #scope{ position:absolute; inset:0; width:100%; height:100%; opacity:0.55; pointer-events:none; }
+  .boot-line{
+    font-family:var(--mono); font-size:12px; color:var(--teal); margin-bottom:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .boot-line::before{ content:"$"; color:var(--text-faint); }
+  .cursor{ display:inline-block; width:7px; height:14px; background:var(--teal); animation:blink 1s steps(1) infinite; vertical-align:-2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  h1.name{
+    font-family:var(--mono); font-weight:800; font-size:clamp(34px,5.5vw,58px);
+    letter-spacing:-0.01em; position:relative; z-index:2; line-height:1.05;
+  }
+  .role-line{
+    font-family:var(--mono); font-size:clamp(14px,2vw,17px); color:var(--amber);
+    margin-top:12px; font-weight:600; position:relative; z-index:2;
+  }
+  .hero-copy{ max-width:640px; margin-top:20px; color:var(--text-dim); font-size:15.5px; position:relative; z-index:2; }
+  .hero-ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; position:relative; z-index:2; }
+  .btn{
+    font-family:var(--mono); font-size:13px; padding:10px 18px; border-radius:6px;
+    text-decoration:none; border:1px solid var(--border); transition:all .15s; letter-spacing:0.02em;
+  }
+  .btn-primary{ background:var(--teal); color:#04110d; border-color:var(--teal); font-weight:700; }
+  .btn-primary:hover{ background:#7ce4d3; }
+  .btn-ghost{ color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  /* sections */
+  section{ padding:70px 0; }
+  .section-tag{
+    font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.08em;
+    display:flex; align-items:center; gap:10px; margin-bottom:8px;
+  }
+  .section-tag::after{ content:""; flex:1; height:1px; background:var(--border); }
+  h2.section-title{ font-family:var(--mono); font-size:clamp(22px,3vw,30px); font-weight:700; margin-bottom:34px; }
+
+  /* project cards */
+  .cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:760px){ .cards{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:10px;
+    padding:22px 22px 20px; transition:border-color .2s, transform .2s;
+    display:flex; flex-direction:column;
+  }
+  .card:hover{ border-color:var(--teal); transform:translateY(-2px); }
+  .card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .card-title{ font-family:var(--mono); font-weight:700; font-size:16px; }
+  .card-year{ font-family:var(--mono); font-size:11px; color:var(--text-faint); }
+  .status-badge{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.06em; color:var(--amber); border:1px solid var(--amber); border-radius:4px; padding:2px 6px; text-transform:uppercase; white-space:nowrap; }
+  .card-desc{ color:var(--text-dim); font-size:14px; margin:12px 0 14px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .tag{ font-family:var(--mono); font-size:10.5px; color:var(--teal); background:#5fd9c512; border:1px solid #5fd9c530; padding:3px 8px; border-radius:4px; }
+  .card-metric{ font-family:var(--mono); font-size:12.5px; color:var(--amber); margin-bottom:14px; }
+  .card-link{ margin-top:auto; font-family:var(--mono); font-size:12.5px; text-decoration:none; color:var(--text-dim); border-top:1px solid var(--border-soft); padding-top:12px; }
+  .card-link:hover{ color:var(--teal); }
+  .card-link::before{ content:"→ "; }
+
+  /* archive (smaller repos) */
+  .archive-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .archive-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:480px){ .archive-grid{ grid-template-columns:1fr; } }
+  .arch-item{
+    border:1px solid var(--border-soft); border-radius:8px; padding:14px 16px;
+    font-size:13px; background:var(--bg-panel-alt);
+  }
+  .arch-item a{ text-decoration:none; font-family:var(--mono); font-weight:600; font-size:13px; }
+  .arch-item a:hover{ color:var(--teal); }
+  .arch-item p{ color:var(--text-faint); font-size:12px; margin-top:6px; }
+
+  /* stack / skills */
+  .stack-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:760px){ .stack-grid{ grid-template-columns:1fr; } }
+  .stack-group{ border-left:2px solid var(--border); padding-left:16px; }
+  .stack-group h3{ font-family:var(--mono); font-size:12.5px; color:var(--amber); letter-spacing:0.05em; margin-bottom:10px; text-transform:uppercase; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:7px; }
+  .chip{ font-family:var(--mono); font-size:12px; padding:4px 10px; border:1px solid var(--border); border-radius:5px; color:var(--text-dim); }
+
+  /* timeline */
+  .timeline{ border-left:2px solid var(--border); margin-left:6px; }
+  .tl-item{ position:relative; padding:0 0 40px 30px; }
+  .tl-item:last-child{ padding-bottom:4px; }
+  .tl-item::before{
+    content:""; position:absolute; left:-7px; top:4px; width:12px; height:12px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--teal);
+  }
+  .tl-role{ font-family:var(--mono); font-weight:700; font-size:15.5px; }
+  .tl-org{ color:var(--amber); font-size:13.5px; font-family:var(--mono); margin-top:2px; }
+  .tl-date{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); margin-top:2px; }
+  .tl-desc{ color:var(--text-dim); font-size:14px; margin-top:10px; max-width:640px; }
+  .tl-bullets{ margin-top:10px; padding-left:18px; color:var(--text-dim); font-size:13.5px; }
+  .tl-bullets li{ margin-bottom:5px; }
+
+  /* education */
+  .edu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:640px){ .edu-grid{ grid-template-columns:1fr; } }
+  .edu-card{ border:1px solid var(--border); border-radius:10px; padding:20px; background:var(--bg-panel); }
+  .edu-card h3{ font-family:var(--mono); font-size:15px; }
+  .edu-card .edu-meta{ font-size:12.5px; color:var(--text-faint); margin-top:6px; font-family:var(--mono); }
+  .edu-card .edu-score{ margin-top:10px; font-family:var(--mono); color:var(--teal); font-size:13px; }
+
+  /* contact / footer */
+  .contact-console{
+    border:1px solid var(--border); border-radius:10px; background:var(--bg-panel);
+    padding:30px; font-family:var(--mono); font-size:13.5px;
+  }
+  .contact-line{ margin-bottom:10px; color:var(--text-dim); }
+  .contact-line .prompt{ color:var(--text-faint); }
+  .contact-line .val{ color:var(--text); }
+  .contact-line a{ color:var(--teal); text-decoration:none; }
+  .contact-line a:hover{ text-decoration:underline; }
+  footer{ text-align:center; padding:34px 0 50px; color:var(--text-faint); font-family:var(--mono); font-size:11.5px; }
+
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .cursor{ animation:none; }
+  }
+
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">santosh<span class="dot">.</span>bala<span class="dot">/</span>n</div>
+    <ul class="navlinks">
+      <li><a href="#log">experience</a></li>
+      <li><a href="#work">work</a></li>
+      <li><a href="#stack">stack</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-console">
+      <div class="console-topbar">
+        <span>~/santosh — instrument console</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="console-body">
+        <canvas id="scope"></canvas>
+        <div class="boot-line">whoami<span class="cursor"></span></div>
+        <h1 class="name">Santosh Bala N</h1>
+        <div class="role-line">Systems Engineer : Distributed Systems, Backend, Embedded &amp; Robotics</div>
+        <p class="hero-copy">
+          Computer Science student at VIT working across firmware, distributed systems and robotics. Currently working on firmware for an Open Source Lab Instrument through Google Summer of Code, leading software for a Mars rover team and exploring distributed backend systems.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#work">view work →</a>
+          <a class="btn btn-ghost" href="https://github.com/IM-TechieScientist" target="_blank" rel="noopener">github ↗</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/santosh-bala-n/">linkedin ↗</a>
+          <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noopener">resume ↓</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="wrap">
+    <div class="section-tag">ch.01 — system log</div>
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-role">Open Source Contributor — Google Summer of Code 2026</div>
+        <div class="tl-org">FOSSASIA · PSLab Project</div>
+        <div class="tl-date">May 2026 — Present · Remote</div>
+        <ul class="tl-bullets">
+          <li>Writing modular firmware in C using a 3-layer platform / system / application architecture for a new open-source lab instrument, isolating a hardware abstraction layer from application logic for portability across MCU targets.</li>
+          <li>Implementing a 200 MSPS logic analyzer and 80 MSPS oscilloscope using DMA-driven, interrupt-based sampling pipelines for high-throughput real-time data capture.</li>
+          <li>Building an industry-standard SCPI command interface over USB for programmatic instrument control, matching conventions used by commercial lab equipment.</li>
+          <li>Adding wireless UDP-based streaming for untethered, real-time telemetry from the instrument.</li>
+          <li>Validating end-to-end integration across the PSLab firmware, Python library, and desktop/mobile applications as part of the broader open-source ecosystem.</li>
+        </ul>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-role">Software Lead</div>
+        <div class="tl-org">Team Vyadh — Mars Rover Team, VIT</div>
+        <div class="tl-date">April 2025 — Present · Vellore</div>
+        <ul class="tl-bullets">
+          <li>Lead a multidisciplinary team of engineers, owning the rover's software and firmware architecture end-to-end; redesigned a fragmented multi-MCU setup into a unified, deterministic system with closed-loop velocity control and fault tolerance.</li>
+          <li>Architected the fully autonomous outdoor navigation stack in Python using ROS 2 and Nav2 — Smac Hybrid-A* as the global planner, MPPI as the local controller — and wrote a custom C++ costmap plugin for dynamic polygon-based keep-out zones.</li>
+          <li>Integrated an Intel RealSense depth camera and tuned perception for outdoor terrain conditions.</li>
+          <li>Designed a real-time ground control station telemetry pipeline over MQTT, streaming GPS/odometry, battery, environmental, and multi-spectral science-sensor data with fault-tolerant auto-reconnect handling.</li>
+          <li>Built a 6-channel HD camera streaming pipeline in GStreamer with hardware-accelerated encoding, dynamic resolution scaling, hot-plug/unplug support, and watchdog-monitored auto-reconnect, achieving 100% streaming uptime across competition.</li>
+        </ul>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-role">Software Intern</div>
+        <div class="tl-org">Antropi Robotics</div>
+        <div class="tl-date">May 2026 — June 2026 · Bengaluru</div>
+        <ul class="tl-bullets">
+          <li>Integrated FoundationPose and SAM3 foundation models into a 6-DoF pose estimation pipeline in Python for a KUKA robotic arm, enabling arbitrary object pick-and-place.</li>
+          <li>Tuned the navigation and docking stack for an autonomous mobile robot using ROS 2, improving path planning and obstacle avoidance and reaching sub-1cm docking accuracy with ArUco vision-based docking.</li>
+          <li>Reverse-engineered proprietary CAD analysis features from commercial design automation software and built equivalent tooling in Python using OpenCascade for automated manufacturing quoting.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-tag">ch.02 — featured</div>
+    <h2 class="section-title">Currently Working on</h2>
+    <div class="cards">
+
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="card-title">Hermes</div>
+          <div class="card-year">2026</div>
+        </div>
+        <div class="card-desc">Pub-sub middleware in Go, inspired by ROS2/DDS; reliable TCP and best effort UDP transports, Redis Streams durability with offset replay, schema enforcement and full observability.</div>
+        <div class="tags">
+          <span class="tag">Go</span><span class="tag">Redis Streams</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Docker</span>
+        </div>
+        <div class="card-metric">256,000/256,000 reliable deliveries · 512 subscribers · 48ms p99</div>
+        <a class="card-link" href="https://github.com/IM-TechieScientist/hermes" target="_blank" rel="noopener">github.com/hermes</a>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="card-title">Multi node Telemetry Pipeline</div>
+          <div class="card-year">2026</div>
+
+        </div>
+        <div class="card-desc">Distributed telemetry ingestion pipeline simulating multiple nodes; Kafka based ingestion with partitioned and horizontally scalable consumers; real time anomaly detection on sensor streams.</div>
+        <div class="tags">
+          <span class="tag">Go</span><span class="tag">Kafka</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span>
+        </div>
+        <div class="card-metric">Deployed on Kubernetes via Terraform provisioned infra · Prometheus/Grafana Dashboard</div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-head">
+          <div class="card-title">Distributed Job Scheduler</div>
+          <div class="card-year">2026</div>
+
+        </div>
+        <div class="card-desc">Fault-tolerant distributed task scheduler implementing Raft consensus for leader election and coordinator failover, with idempotent execution and dead letter handling for failing jobs.</div>
+        <div class="tags">
+          <span class="tag">Go</span><span class="tag">Raft</span><span class="tag">gRPC</span><span class="tag">etcd</span><span class="tag">Kubernetes</span>
+        </div>
+        <div class="card-metric">Tested leader/worker failover · autoscaled on queue depth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="section-tag">ch.03 — stack</div>
+    <h2 class="section-title">Systems map</h2>
+    <div class="stack-grid">
+      <div class="stack-group">
+        <h3>Languages</h3>
+        <div class="chip-row">
+          <span class="chip">C</span><span class="chip">C++</span><span class="chip">Python</span><span class="chip">Go</span><span class="chip">JavaScript</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>Systems &amp; Distributed</h3>
+        <div class="chip-row">
+          <span class="chip">TCP/UDP</span><span class="chip">Redis Streams</span><span class="chip">Kafka</span><span class="chip">MQTT</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">REST</span><span class="chip">WebSocket</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>Cloud &amp; Infra</h3>
+        <div class="chip-row">
+          <span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">gRPC</span><span class="chip">Raft / etcd</span><span class="chip">GitHub Actions</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>Web &amp; Tools</h3>
+        <div class="chip-row">
+          <span class="chip">FastAPI</span><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">Linux</span><span class="chip">CMake</span><span class="chip">GDB</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>Robotics &amp; Perception</h3>
+        <div class="chip-row">
+          <span class="chip">ROS 2</span><span class="chip">Nav2</span><span class="chip">Smac Hybrid-A*</span><span class="chip">MPPI</span><span class="chip">GStreamer</span><span class="chip">ArUco</span><span class="chip">RealSense</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>Embedded</h3>
+        <div class="chip-row">
+          <span class="chip">STM32</span><span class="chip">ESP32</span><span class="chip">RP2350</span><span class="chip">CAN</span><span class="chip">UART</span><span class="chip">DMA</span><span class="chip">RTOS</span><span class="chip">KiCAD</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h3>AI Tools</h3>
+        <div class="chip-row">
+          <span class="chip">Claude</span><span class="chip">OpenAI Codex</span><span class="chip">GitHub Copilot</span><span class="chip">Ollama</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="archive">
+  <div class="wrap">
+    <div class="section-tag">ch.03b — trace log</div>
+    <h2 class="section-title" style="font-size:20px; margin-bottom:20px;">Random stuff I worked on for fun</h2>
+    <div class="archive-grid">
+      <div class="arch-item"><a href="https://github.com/IM-TechieScientist/custom-stlink" target="_blank" rel="noopener">custom-stlink</a><p>STM32F103-based ST-Link-compatible debugger, designed in KiCAD.</p></div>
+      <div class="arch-item"><a href="https://github.com/IM-TechieScientist/nav2_keepout_polygon_layer" target="_blank" rel="noopener">nav2_keepout_polygon_layer</a><p>Custom Nav2 costmap plugin in C++ for dynamic keep-out zones.</p></div>
+      <div class="arch-item"><a href="https://github.com/IM-TechieScientist/low-cost-perception" target="_blank" rel="noopener">low-cost-perception</a><p>ROS 2 perception demo using inexpensive commodity sensors + vision/SLAM.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-tag">ch.04 — education</div>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <h3>Vellore Institute of Technology</h3>
+        <div class="edu-meta">B.Tech Computer Science &amp; Engineering · 2024–2028</div>
+        <div class="edu-score">CGPA 8.7 / 10</div>
+      </div>
+      <div class="edu-card">
+        <h3>Vidya Mandir Senior Secondary School</h3>
+        <div class="edu-meta">High School Diploma · Chennai</div>
+        <div class="edu-score">93.4%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-tag">tx.out — contact</div>
+    <h2 class="section-title">Get in touch</h2>
+    <div class="contact-console">
+      <div class="contact-line"><span class="prompt">$ cat</span> <span class="val">contact.env</span></div>
+      <div class="contact-line">EMAIL=<a href="mailto:santmartian@gmail.com">santmartian@gmail.com</a></div>
+      <div class="contact-line">GITHUB=<a href="https://github.com/IM-TechieScientist" target="_blank" rel="noopener">github.com/IM-TechieScientist</a></div>
+      <div class="contact-line">RESUME=<a href="resume.pdf" target="_blank" rel="noopener">resume.pdf</a></div>
+      <div class="contact-line">LINKEDIN=<a href="https://www.linkedin.com/in/santosh-bala-n/" target="_blank" rel="noopener">linkedin/santosh-bala-n</a></div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  you've reached the end!
+</footer>
+
+<script>
+  // reveal-on-scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+
+  // oscilloscope waveform in hero
+  const canvas = document.getElementById('scope');
+  const ctx = canvas.getContext('2d');
+  let w, h, t = 0;
+  function resize(){
+    const parent = canvas.parentElement;
+    w = canvas.width = parent.clientWidth;
+    h = canvas.height = parent.clientHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawTrace(offsetY, amp, freq, phase, color, alpha){
+    ctx.beginPath();
+    for(let x=0; x<=w; x+=4){
+      const y = offsetY + Math.sin((x*freq) + phase) * amp * Math.sin((x/w)*Math.PI);
+      if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,w,h);
+    const midY = h*0.62;
+    drawTrace(midY, 26, 0.045, t, '#5fd9c5', 0.5);
+    drawTrace(midY, 16, 0.07, t*1.3+2, '#ffb454', 0.35);
+    t += reduceMotion ? 0 : 0.04;
+    requestAnimationFrame(frame);
+  }
+  frame();
+</script>
+</body>
+</html>
